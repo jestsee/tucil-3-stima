@@ -38,7 +38,8 @@ catatan :
 
 '''
 import math
-
+import networkx as nx
+import matplotlib.pyplot as plt
 # kelas graf
 class Graf:
     def __init__(self, Nsimp):
@@ -68,6 +69,9 @@ class Graf:
 
     def getGraf(self):
         return self.graph
+    
+    def getKoor(self):
+        return self.koor
 
     def add_edge(self, v1, v2, bobot):
         # diasumsikan simpul sudah terdapat dalam graf
@@ -96,7 +100,7 @@ class Graf:
         y2 = self.koor[index2][1]
 
         e = math.sqrt((x2-x1)**2 + (y2-y1)**2)
-        return e
+        return round(e,4)
 
     def generateGraphfromFile(self, koor, dataAdj, dictionary):
         self.koor = koor
@@ -181,10 +185,34 @@ def readFile(x):
     g.generateGraphfromFile(mapkoor,dataAdj,map)
     return g
 
-    
+
 # driver
 directory = '..\\test\\'
 namafile = input("Masukkan nama file : ")
 g = readFile(directory+namafile)
 print(g.getGraf(),"\n")
 print(g.getDict(),"\n")
+
+# visualisasi graf mula2
+Gr = nx.Graph()
+
+# menambahkan simpul
+for i in range(g.getNSimpul()):
+    Gr.add_node(g.getDict()[i], pos=g.getKoor()[i])
+
+# menambahkan sisi
+for i in range(g.getNSimpul()):
+    temp = g.getGraf()[i]
+    for j in range(len(temp)):
+        src = g.getDict()[i]
+        dest = g.getDict()[temp[j][0]]
+        weighted = temp[j][1]
+        Gr.add_edge(src, dest, weight=weighted )
+
+pos = nx.get_node_attributes(Gr,'pos')
+labels = nx.get_edge_attributes(Gr,'weight')
+nx.draw(Gr, pos,with_labels=True, font_weight='bold')
+nx.draw_networkx_edge_labels(Gr,pos,edge_labels=labels)
+
+
+plt.show()

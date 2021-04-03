@@ -1,9 +1,22 @@
 <html>
-   <body>
-      <form action = "http://localhost:5000/manual.html" method = "POST" 
-         enctype = "multipart/form-data">
-         <input type = "file" name = "files" />
-         <input type = "submit"/>
-      </form>   
-   </body>
+<form method='POST' enctype=multipart/form-data>
+    <div class = 'form-group'>
+        <div class = "custom-file">
+            <input type="file" class = "custom-file-input" name=files>
+            <input type = "submit" class = "btn btn-primary" value = "Upload"></button>
+        </div>
+    </div>
+</form>
+<br>
+{% with messages = get_flashed_messages()%}
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{message}}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+<br>
+<body>
+    <img src="{{ url_for('fig', cropzonekey = title) }}" alt="Image Placeholder" height="100">
+  </body>
 </html>

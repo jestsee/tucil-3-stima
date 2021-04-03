@@ -3,6 +3,10 @@ from flask import Flask, render_template, request,redirect, flash, url_for
 import os
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import  FileStorage
+import math
+import networkx as nx
+import matplotlib.pyplot as plt
+
 app = Flask(__name__)
 
 app.secret_key = 'bantalguling'
@@ -36,8 +40,7 @@ def result():
             else :
                 filename = secure_filename(files.filename)
                 # proses file
-
-
+                
 
 if __name__ == '__main__':
     app.run(debug=True)

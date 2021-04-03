@@ -4,6 +4,7 @@ import os
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import  FileStorage
 import math
+import platform
 import networkx as nx
 import matplotlib.pyplot as plt
 
@@ -18,6 +19,12 @@ def index():
 @app.route("/manual.html")
 def manual():
     return render_template('manual.html')
+
+platform_name = platform.system()
+if(platform_name == "Windows"):
+    app.config["Upload_Files"] = '..\\test\\'
+else:
+    app.config["Upload_Files"] = "../test"
 
 app.config["allowed_file_ext"] = ["txt"]
 
@@ -39,6 +46,9 @@ def result():
                 return redirect(request.url)
             else :
                 filename = secure_filename(files.filename)
+                files.save(os.path.join(app.config["Upload_Files"], filename))
+                flash("Upload berhasil")
+                return redirect(request.url)
                 # proses file
                 
 

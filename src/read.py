@@ -183,6 +183,8 @@ def readFile(x):
 
     
 # driver
-g = readFile('test1.txt')
+directory = '..\\test\\'
+namafile = input("Masukkan nama file : ")
+g = readFile(directory+namafile)
 print(g.getGraf(),"\n")
 print(g.getDict(),"\n")

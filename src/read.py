@@ -39,7 +39,10 @@ catatan :
 '''
 import math
 import networkx as nx
+#import matplotlib
+#matplotlib.use('agg')
 import matplotlib.pyplot as plt
+#plt.switch_backend('agg')
 # kelas graf
 class Graf:
     def __init__(self, Nsimp):
@@ -185,7 +188,32 @@ def readFile(x):
     g.generateGraphfromFile(mapkoor,dataAdj,map)
     return g
 
+# visualisasi graf dengan networkx
+def visualize(g):
+    Gr = nx.Graph()
 
+    # menambahkan simpul
+    for i in range(g.getNSimpul()):
+        Gr.add_node(g.getDict()[i], pos=g.getKoor()[i])
+
+    # menambahkan sisi
+    for i in range(g.getNSimpul()):
+        temp = g.getGraf()[i]
+        for j in range(len(temp)):
+            src = g.getDict()[i]
+            dest = g.getDict()[temp[j][0]]
+            weighted = temp[j][1]
+            Gr.add_edge(src, dest, weight=weighted )
+
+    pos = nx.get_node_attributes(Gr,'pos')
+    labels = nx.get_edge_attributes(Gr,'weight')
+    nx.draw(Gr, pos,with_labels=True, font_weight='bold')
+    nx.draw_networkx_edge_labels(Gr,pos,edge_labels=labels)
+    plt.show()
+    #plt.savefig('static/foo.png')
+    #plt.clf()
+
+'''
 # driver
 directory = '..\\test\\'
 namafile = input("Masukkan nama file : ")
@@ -194,25 +222,4 @@ print(g.getGraf(),"\n")
 print(g.getDict(),"\n")
 
 # visualisasi graf mula2
-Gr = nx.Graph()
-
-# menambahkan simpul
-for i in range(g.getNSimpul()):
-    Gr.add_node(g.getDict()[i], pos=g.getKoor()[i])
-
-# menambahkan sisi
-for i in range(g.getNSimpul()):
-    temp = g.getGraf()[i]
-    for j in range(len(temp)):
-        src = g.getDict()[i]
-        dest = g.getDict()[temp[j][0]]
-        weighted = temp[j][1]
-        Gr.add_edge(src, dest, weight=weighted )
-
-pos = nx.get_node_attributes(Gr,'pos')
-labels = nx.get_edge_attributes(Gr,'weight')
-nx.draw(Gr, pos,with_labels=True, font_weight='bold')
-nx.draw_networkx_edge_labels(Gr,pos,edge_labels=labels)
-
-
-plt.show()
+visualize(g)'''

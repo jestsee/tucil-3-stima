@@ -1,3 +1,5 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
+Graph.gv
+Graph.gv.png
 *.py[cod]

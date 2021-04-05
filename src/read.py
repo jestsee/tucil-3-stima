@@ -200,6 +200,17 @@ def readFile(x):
     g.generateGraphfromFile(mapkoor,dataAdj,map)
     return g
 
+'''
+def arrayOfCost(graph):
+    costMat = []
+    for i in range (12):
+        costArr = []
+        for j in range (len(g.getGraf())):
+            costArr.append(graph.euclideanDistance(i,j))
+        costMat.append(costArr)
+    return costMat
+'''
+
 # visualisasi graf dengan networkx
 def visualize(g):
     Gr = nx.Graph()
@@ -225,6 +236,61 @@ def visualize(g):
     #plt.savefig('static/foo.png')
     #plt.clf()
 
+def findBest(arr, open):
+    best = open[0]
+    for i in (open):
+        if arr[i]<arr[best]:
+            best = i
+    return i
+
+def findNeighbors(graph,curr):
+    neighbors = []
+    for i in (graph.getGraf()[curr]):
+        neighbors.append(i[0])
+    return neighbors
+
+def displayPath(cameFrom,curr,cost):
+    result = [curr]
+    while cameFrom[curr] != -999:
+        curr = cameFrom[curr]
+        result.insert(0,curr)
+    result.append(cost)
+    return result
+
+def AStar(graph,startNode,goalNode):
+    toEvaluate = [startNode] # to be evaluated
+    evaluated = [] # already evaluated
+    # Total cost
+    fcost = {}
+    for i in range(len(g.getGraf())):
+        fcost[i] = graph.euclideanDistance(i,goalNode)
+    # Initialize cost
+    gcost = [999] * len(g.getGraf()) # from start to current Node
+    gcost[startNode] = 0
+    # initialize array
+    cameFrom = [-999] * len(g.getGraf())
+    while(toEvaluate): # Not yet empty
+        # Find the minimum
+        currentNode = findBest(fcost,toEvaluate)
+        if(currentNode==goalNode):
+            # Found
+            return(displayPath(cameFrom,currentNode,gcost[currentNode]))
+        else:
+            # remove from the list to be evaluated
+            toEvaluate.remove(currentNode)
+            evaluated.insert(0,currentNode)
+            neighbors = findNeighbors(graph,currentNode)
+            for neighbor in neighbors:
+                if not (neighbor in evaluated): # not yet evaluated
+                    if not (neighbor in toEvaluate): # no duplicates
+                        toEvaluate.append(neighbor)
+                    temporaryCost = gcost[currentNode] + graph.euclideanDistance(currentNode,neighbor) 
+                    # finding a better path
+                    if temporaryCost < gcost[neighbor]:
+                        cameFrom[neighbor] = currentNode
+                        gcost[neighbor] = temporaryCost
+                        fcost[neighbor]=gcost[neighbor]+graph.euclideanDistance(neighbor,goalNode)
+    return None
 
 # driver
 path_parent = os.path.dirname(os.getcwd())
@@ -235,6 +301,12 @@ namafile = input("Masukkan nama file : ")
 g = readFile(namafile)
 print(g.getGraf(),"\n")
 print(g.getDict(),"\n")
-
+#print(arrayOfCost(g))
+namaSimpul1 = int(input("Masukkan nama simpul pertama: "))
+namaSimpul2 = int(input("Masukkan nama simpul kedua: "))
+if(AStar(g,namaSimpul1,namaSimpul2)!=None):
+    print(AStar(g,namaSimpul1,namaSimpul2))
+else:
+    print("No path")
 # visualisasi graf mula2
 visualize(g)

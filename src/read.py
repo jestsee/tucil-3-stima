@@ -276,7 +276,7 @@ def findBest(arr, open):
     for i in (open):
         if arr[i]<arr[best]:
             best = i
-    return i
+    return best
 
 def findNeighbors(graph,curr):
     neighbors = []

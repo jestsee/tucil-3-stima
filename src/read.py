@@ -87,12 +87,11 @@ class Graf:
         if(temp1 not in self.graph[v2]):
             self.graph[v2].append(temp1)
 
-    def getKey(self, value, dictio):
-        for key, val in dictio.items():
-            if val == value:
-                return key
-
-        return "key doesn't exist"
+    def getKey(self, d, val):
+        keys = [k for k, v in d.items() if v == val]
+        if keys:
+            return keys[0]
+        return None
 
     def euclideanDistance(self, index1, index2):
         # get x1 y1
@@ -258,7 +257,7 @@ def visualizePath(g, path):
             if(i in path and temp[j][0] in path):
                 Gr.add_edge(src, dest, color='r', weight=weighted)
             else:
-                Gr.add_edge(src, dest, color='b', weight=weighted )
+                Gr.add_edge(src, dest, color='black', weight=weighted )
     
     edges = Gr.edges()
     colors = [Gr[u][v]['color'] for u,v in edges]
@@ -327,6 +326,17 @@ def AStar(graph,startNode,goalNode):
                         fcost[neighbor]=gcost[neighbor]+graph.euclideanDistance(neighbor,goalNode)
     return None
 
+def getKey(my_dict, val):
+    # list out keys and values separately
+    key_list = list(my_dict.keys())
+    val_list = list(my_dict.values())
+    
+    print(key_list,val_list)
+
+    # print key with val 100
+    position = val_list.index(val)
+    return(key_list[position])
+
 # driver
 path_parent = os.path.dirname(os.getcwd())
 os.chdir(path_parent)
@@ -337,8 +347,13 @@ g = readFile(namafile)
 print(g.getGraf(),"\n")
 print(g.getDict(),"\n")
 #print(arrayOfCost(g))
-namaSimpul1 = int(input("Masukkan nama simpul pertama: "))
-namaSimpul2 = int(input("Masukkan nama simpul kedua: "))
+
+namaSimpulA = input("Masukkan nama simpul pertama: ")
+namaSimpulB = input("Masukkan nama simpul kedua: ")
+
+namaSimpul1 = getKey(g.getDict(),namaSimpulA)
+namaSimpul2 = getKey(g.getDict(),namaSimpulB)
+
 if(AStar(g,namaSimpul1,namaSimpul2)!=None):
     print(AStar(g,namaSimpul1,namaSimpul2))
 else:

@@ -112,8 +112,8 @@ class Graf:
 
         for i in range(len(dataAdj)):
             for j in range(1,len(dataAdj[i])):
-                index1 = self.getKey(dataAdj[i][0], self.dict)
-                index2 = self.getKey(dataAdj[i][j], self.dict)
+                index1 = dataAdj[i][0]
+                index2 = dataAdj[i][j]
                 # cari jarak antar 2 koordinat
                 e = self.euclideanDistance(index1,index2)
                 # menambahkan sisi antar 2 simpul
@@ -128,6 +128,7 @@ def readFile(x):
         n = int(f.readline())
 
         i=0
+        track = 0
         for line in f:
             # membaca n baris selanjutnya
             # datakoor = [[namasimp1, x1, y1], 
@@ -147,8 +148,18 @@ def readFile(x):
             #            [dst ... ]]
             if (n<=i<2*n):
                 #dataAdj.append([float(x) for x in line.split()])
-                dataAdj.append(line.split())
+                tempAdj = []
+                tempAdj.append(track) # uda work
                 
+                # cari tetangga
+                tempRaw = line.split()
+                for i in range(len(tempRaw)):
+                    if(tempRaw[i]=="1"):
+                        tempAdj.append(i)
+
+                track = track + 1
+                dataAdj.append(tempAdj)
+
             i = i+1
 
     # sudah work
@@ -184,7 +195,7 @@ def readFile(x):
         mapkoor[nomor] = xy
     #print(mapkoor)
 
-    # buat grafnya :DDD
+    # buat grafnya
     g = Graf(n)
     g.generateGraphfromFile(mapkoor,dataAdj,map)
     return g

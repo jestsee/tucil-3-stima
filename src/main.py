@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request,redirect, flash, url_for
+from flask import Flask, render_template, request,redirect, flash, url_for, session
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import  FileStorage
 from graphviz import Graph
@@ -53,7 +53,6 @@ def result():
                 # proses file
                 directory = os.path.join(app.config["Upload_Files"], filename)
                 g = r.readFile(directory)
-                
                 chart_data = Graph(strict=True, engine="neato",format='png')
                 
                 # menambahkan simpul
@@ -77,7 +76,7 @@ def result():
                 chart_output = base64.b64encode(chart_output).decode('utf-8')
 
                 return render_template('manual.html', chart_output=chart_output)
-    
+                
 
 if __name__ == '__main__':
     app.run(debug=True)

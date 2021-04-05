@@ -39,6 +39,7 @@ catatan :
 '''
 import math
 import networkx as nx
+import os
 #import matplotlib
 #matplotlib.use('agg')
 import matplotlib.pyplot as plt
@@ -213,13 +214,16 @@ def visualize(g):
     #plt.savefig('static/foo.png')
     #plt.clf()
 
-'''
+
 # driver
-directory = '..\\test\\'
+path_parent = os.path.dirname(os.getcwd())
+os.chdir(path_parent)
+os.chdir('test')
+#directory = '..\\test\\'
 namafile = input("Masukkan nama file : ")
-g = readFile(directory+namafile)
+g = readFile(namafile)
 print(g.getGraf(),"\n")
 print(g.getDict(),"\n")
 
 # visualisasi graf mula2
-visualize(g)'''
+visualize(g)

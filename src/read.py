@@ -236,6 +236,41 @@ def visualize(g):
     #plt.savefig('static/foo.png')
     #plt.clf()
 
+def visualizePath(g, path):
+    Gr = nx.Graph()
+    path.pop()
+    color_map=[]
+    # menambahkan simpul
+    for i in range(g.getNSimpul()):
+        Gr.add_node(g.getDict()[i], pos=g.getKoor()[i])
+        if i not in path:
+            color_map.append('blue')
+        else:
+            color_map.append('red')
+    
+    # menambahkan sisi
+    for i in range(g.getNSimpul()):
+        temp = g.getGraf()[i]
+        for j in range(len(temp)):
+            src = g.getDict()[i]
+            dest = g.getDict()[temp[j][0]]
+            weighted = temp[j][1]
+            if(i in path and temp[j][0] in path):
+                Gr.add_edge(src, dest, color='r', weight=weighted)
+            else:
+                Gr.add_edge(src, dest, color='b', weight=weighted )
+    
+    edges = Gr.edges()
+    colors = [Gr[u][v]['color'] for u,v in edges]
+    print(colors)
+    pos = nx.get_node_attributes(Gr,'pos')
+    labels = nx.get_edge_attributes(Gr,'weight')
+    nx.draw(Gr, pos, node_color=color_map, edge_color=colors, with_labels=True, font_weight='bold')
+    nx.draw_networkx_edge_labels(Gr,pos,edge_labels=labels)
+    plt.show()
+    #plt.savefig('static/foo.png')
+    #plt.clf()
+
 def findBest(arr, open):
     best = open[0]
     for i in (open):
@@ -309,4 +344,4 @@ if(AStar(g,namaSimpul1,namaSimpul2)!=None):
 else:
     print("No path")
 # visualisasi graf mula2
-visualize(g)
+visualizePath(g,AStar(g,namaSimpul1,namaSimpul2))

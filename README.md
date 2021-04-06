@@ -16,9 +16,8 @@ Cara mengeksekusi program (asumsi dengan command prompt cmd)
   ```bash
   $ python cryp3.py
   ```
-  lalu akan tampil url seperti http://127.0.0.1:5000/. Copy-paste url tsb ke browser
-4. Selama menggunakan program, **pastikan program main2.py pada Command Prompt tidak berhenti atau Command Prompt tidak ter-close.**
+  lalu akan tampil url seperti http://127.0.0.1:5000/. Copy-paste url tsb ke browser. Selama menggunakan program, **pastikan program main2.py pada Command Prompt tidak berhenti atau Command Prompt tidak ter-close.**
 
 ## author
-13519011 Jesica
-13519047 Rhea Elka Pandumpi
+- 13519011 Jesica
+- 13519047 Rhea Elka Pandumpi

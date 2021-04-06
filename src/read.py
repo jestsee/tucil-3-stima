@@ -38,6 +38,7 @@ catatan :
 
 '''
 import math
+from math import *
 import networkx as nx
 import os
 #import matplotlib
@@ -93,17 +94,22 @@ class Graf:
             return keys[0]
         return None
 
-    def euclideanDistance(self, index1, index2):
-        # get x1 y1
-        x1 = self.koor[index1][0]
-        y1 = self.koor[index1][1]
-
-        # get x2 y2
-        x2 = self.koor[index2][0]
-        y2 = self.koor[index2][1]
-
-        e = math.sqrt((x2-x1)**2 + (y2-y1)**2)
-        return round(e,4)
+    def haversineDistance(self, index1, index2):
+        EARTH_RAD=6371
+        # latitudes and longitudes
+        # lokasi dari 2 titik di koordinat bola (lintang dan bujur)
+        lat1 = self.koor[index1][0]
+        long1 = self.koor[index1][1]
+        lat2 = self.koor[index2][0]
+        long2 = self.koor[index2][1]
+        # distance between latitudes and longitudes
+        dLat = radians(lat2-lat1)
+        dLong = radians(long2-long1)
+        # formula
+        haver = sin(dLat/2)**2+cos(radians(lat1))*cos(radians(lat2))*sin(dLong/2)**2
+        haver = 2* atan2 (sqrt(haver), sqrt(1-haver))
+        haver = EARTH_RAD*haver
+        return haver
 
     def generateGraphfromFile(self, koor, dataAdj, dictionary):
         self.koor = koor
@@ -114,7 +120,7 @@ class Graf:
                 index1 = dataAdj[i][0]
                 index2 = dataAdj[i][j]
                 # cari jarak antar 2 koordinat
-                e = self.euclideanDistance(index1,index2)
+                e = self.haversineDistance(index1,index2)
                 # menambahkan sisi antar 2 simpul
                 self.add_edge(index1,index2,e)
 
@@ -125,7 +131,7 @@ class Graf:
         for i in range(len(edges)):
             index1 = edges[i][0]
             index2 = edges[i][1]
-            e = self.euclideanDistance(index1,index2)
+            e = self.haversineDistance(index1,index2)
             self.add_edge(index1,index2,e)
     
 # membaca file txt dan membuat graf berdasarkan file tsb dan mengembalikan objek graf
@@ -235,7 +241,7 @@ def arrayOfCost(graph):
     for i in range (12):
         costArr = []
         for j in range (len(g.getGraf())):
-            costArr.append(graph.euclideanDistance(i,j))
+            costArr.append(graph.haversineDistance(i,j))
         costMat.append(costArr)
     return costMat
 '''
@@ -327,7 +333,7 @@ def AStar(g,startNode,goalNode):
     # Total cost
     fcost = {}
     for i in range(len(g.getGraf())):
-        fcost[i] = g.euclideanDistance(i,goalNode)
+        fcost[i] = g.haversineDistance(i,goalNode)
     # Initialize cost
     gcost = [999] * len(g.getGraf()) # from start to current Node
     gcost[startNode] = 0
@@ -348,12 +354,12 @@ def AStar(g,startNode,goalNode):
                 if not (neighbor in evaluated): # not yet evaluated
                     if not (neighbor in toEvaluate): # no duplicates
                         toEvaluate.append(neighbor)
-                    temporaryCost = gcost[currentNode] + g.euclideanDistance(currentNode,neighbor) 
+                    temporaryCost = gcost[currentNode] + g.haversineDistance(currentNode,neighbor) 
                     # finding a better path
                     if temporaryCost < gcost[neighbor]:
                         cameFrom[neighbor] = currentNode
                         gcost[neighbor] = temporaryCost
-                        fcost[neighbor]=gcost[neighbor]+g.euclideanDistance(neighbor,goalNode)
+                        fcost[neighbor]=gcost[neighbor]+g.haversineDistance(neighbor,goalNode)
     return None
 
 def getKey(my_dict, val):

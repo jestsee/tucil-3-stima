@@ -117,6 +117,16 @@ class Graf:
                 e = self.euclideanDistance(index1,index2)
                 # menambahkan sisi antar 2 simpul
                 self.add_edge(index1,index2,e)
+
+    def generateGraphfromMap(self, edges, mapkoor):
+        self.koor = mapkoor
+        self.dict = None
+
+        for i in range(len(edges)):
+            index1 = edges[i][0]
+            index2 = edges[i][1]
+            e = self.euclideanDistance(index1,index2)
+            self.add_edge(index1,index2,e)
     
 # membaca file txt dan membuat graf berdasarkan file tsb dan mengembalikan objek graf
 def readFile(x):
@@ -180,7 +190,7 @@ def readFile(x):
         temp = (datakoor[i][1],datakoor[i][2])
         koor.append(temp)
     #print(namasimp)
-    #print(koor)
+    print(koor)
 
     # membuat dictionary untuk nama simpul
     map = {}
@@ -198,6 +208,26 @@ def readFile(x):
     g = Graf(n)
     g.generateGraphfromFile(mapkoor,dataAdj,map)
     return g
+
+def readData(edges, coors):
+    # edges = [[0, 1], [1, 5], [5, 4], [4, 2], [2, 5], [5, 3]]
+    # coors = [[-6.887334702990225, 107.61023523515465], [-6.893342063239795, 107.61731626695396], [-6.899775392967547, 107.60594370073082], [-6.893171642721565, 107.60122301286461], [-6.891382223580727, 107.60568620866539], [-6.896111388070819, 107.61019231981041]]
+    n = len(coors)
+    key = [0 for i in range(n)]
+    for i in range(n):
+        key[i] = i
+
+    mapkoor = {}
+    for nomor, xy in zip(key,coors):
+        mapkoor[nomor] = xy
+    #print(mapkoor)
+
+    # buat grafnya
+    g = Graf(n)
+    g.generateGraphfromMap(edges,mapkoor)
+    return g
+    
+
 
 '''
 def arrayOfCost(graph):
@@ -257,7 +287,7 @@ def visualizePath(g, path):
             if(i in path and temp[j][0] in path):
                 Gr.add_edge(src, dest, color='r', weight=weighted)
             else:
-                Gr.add_edge(src, dest, color='black', weight=weighted )
+                Gr.add_edge(src, dest, color='k', weight=weighted )
     
     edges = Gr.edges()
     colors = [Gr[u][v]['color'] for u,v in edges]
@@ -291,13 +321,13 @@ def displayPath(cameFrom,curr,cost):
     result.append(cost)
     return result
 
-def AStar(graph,startNode,goalNode):
+def AStar(g,startNode,goalNode):
     toEvaluate = [startNode] # to be evaluated
     evaluated = [] # already evaluated
     # Total cost
     fcost = {}
     for i in range(len(g.getGraf())):
-        fcost[i] = graph.euclideanDistance(i,goalNode)
+        fcost[i] = g.euclideanDistance(i,goalNode)
     # Initialize cost
     gcost = [999] * len(g.getGraf()) # from start to current Node
     gcost[startNode] = 0
@@ -313,17 +343,17 @@ def AStar(graph,startNode,goalNode):
             # remove from the list to be evaluated
             toEvaluate.remove(currentNode)
             evaluated.insert(0,currentNode)
-            neighbors = findNeighbors(graph,currentNode)
+            neighbors = findNeighbors(g,currentNode)
             for neighbor in neighbors:
                 if not (neighbor in evaluated): # not yet evaluated
                     if not (neighbor in toEvaluate): # no duplicates
                         toEvaluate.append(neighbor)
-                    temporaryCost = gcost[currentNode] + graph.euclideanDistance(currentNode,neighbor) 
+                    temporaryCost = gcost[currentNode] + g.euclideanDistance(currentNode,neighbor) 
                     # finding a better path
                     if temporaryCost < gcost[neighbor]:
                         cameFrom[neighbor] = currentNode
                         gcost[neighbor] = temporaryCost
-                        fcost[neighbor]=gcost[neighbor]+graph.euclideanDistance(neighbor,goalNode)
+                        fcost[neighbor]=gcost[neighbor]+g.euclideanDistance(neighbor,goalNode)
     return None
 
 def getKey(my_dict, val):
@@ -336,7 +366,7 @@ def getKey(my_dict, val):
     # print key with val 100
     position = val_list.index(val)
     return(key_list[position])
-
+'''
 # driver
 path_parent = os.path.dirname(os.getcwd())
 os.chdir(path_parent)
@@ -360,3 +390,9 @@ else:
     print("No path")
 # visualisasi graf mula2
 visualizePath(g,AStar(g,namaSimpul1,namaSimpul2))
+'''
+edges = [[0, 1], [1, 5], [5, 4], [4, 2], [2, 5], [5, 3]]
+coors = [[-6.887334702990225, 107.61023523515465], [-6.893342063239795, 107.61731626695396], [-6.899775392967547, 107.60594370073082], [-6.893171642721565, 107.60122301286461], [-6.891382223580727, 107.60568620866539], [-6.896111388070819, 107.61019231981041]]
+g2 = readData(edges,coors)
+print(g2.getGraf())
+print(AStar(g2,0,5))

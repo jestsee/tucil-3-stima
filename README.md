@@ -1,2 +1,21 @@
 # tucil-3-stima
 Tugas Kecil 3 Strategi Algoritma
+
+## requirement & installation
+- [Python 3.5+](https://www.python.org/) and [Pip](https://pypi.org/project/pip/)
+- [Regex](https://pypi.org/project/regex/) 
+  ``` pip install regex ```
+    
+## Usage
+Cara mengeksekusi program (asumsi dengan command prompt cmd)
+1. Buka Command Prompt
+2. Masuk ke direktori dimana repository tadi di download/clone, lalu masuk ke folder src
+3. Untuk run program ketik 'python main2.py' (tanpa tanda petik), lalu akan tampil tampilan sebagai berikut, salin url yang tercantum (pada contoh ini url nya adalah http://127.0.0.1:5000/ ). Kemudian tempel / paste ke browser anda.
+```bash
+$ python cryp3.py
+```
+4. Selama menggunakan program, **pastikan program main2.py pada Command Prompt tidak berhenti atau Command Prompt tidak ter-close.**
+
+## author
+13519011 Jesica
+13519047 Rhea Elka Pandumpi

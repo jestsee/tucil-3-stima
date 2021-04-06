@@ -14,7 +14,7 @@ Cara mengeksekusi program (asumsi dengan command prompt cmd)
 2. Masuk ke direktori dimana repository tadi di download/clone, lalu masuk ke folder src
 3. Untuk run program ketik 'python main2.py' (tanpa tanda petik)
   ```bash
-  $ python cryp3.py
+  $ python main2.py
   ```
   lalu akan tampil url seperti http://127.0.0.1:5000/. Copy-paste url tsb ke browser. Selama menggunakan program, **pastikan program main2.py pada Command Prompt tidak berhenti atau Command Prompt tidak ter-close.**
 

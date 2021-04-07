@@ -3,10 +3,6 @@ Tugas Kecil 3 Strategi Algoritma
 
 ## requirement & installation
 - [Python 3.5+](https://www.python.org/) and [Pip](https://pypi.org/project/pip/)
-- [Matplotlib](https://pypi.org/project/matplotlib/) 
-  ``` pip install matplotlib ```
-- [Networkx](https://pypi.org/project/networkx/)
-  ``` pip install networkx ```
     
 ## usage
 Cara mengeksekusi program (asumsi dengan command prompt cmd)
